@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
         valid = false;
       }
 
-      if (phone.value.trim() && !/^(\+91[\-\s]?)?[0-9]{10}$/.test(phone.value.trim())) {
+      if (phone.value.trim() && !/^[0-9]{10}$/.test(phone.value.trim())) {
         phone.classList.add('error');
         valid = false;
       }
