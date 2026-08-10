@@ -13,32 +13,43 @@
  */
 
 var ADMIN_EMAIL = 'info@northstartechnologies.net'; // change to your inbox
+var SHEET_NAME = 'Sheet1';                          // change if your tab is named differently
 
 /**
  * Receives form POSTs from the website, appends a row to the sheet,
  * and emails the admin inbox with the inquiry details.
  */
 function doPost(e) {
-  var d = (e && e.parameter) || {};
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var response = { result: 'success', error: '', email: '' };
 
-  var row = [
-    d.name || '',
-    d.email || '',
-    d.phone || '',
-    d.message || '',
-    d.timestamp || ''
-  ];
-  sheet.appendRow(row);
+  try {
+    var d = (e && e.parameter) || {};
 
-  // Remember the row we just added so onChange() does not email it again.
-  CacheService.getScriptCache().put('lastWebAppRow', String(sheet.getLastRow()), 60);
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
 
-  // Send the email directly from the web app call so it works
-  // without requiring the onChange trigger to be installed.
-  var emailStatus = sendInquiryEmail(d);
+    var row = [
+      d.name || '',
+      d.email || '',
+      d.phone || '',
+      d.message || '',
+      d.timestamp || new Date().toLocaleString()
+    ];
+    sheet.appendRow(row);
 
-  return ContentService.createTextOutput(JSON.stringify({ result: 'success', email: emailStatus }))
+    // Remember the row we just added so onChange() does not email it again.
+    CacheService.getScriptCache().put('lastWebAppRow', String(sheet.getLastRow()), 60);
+
+    // Send the email directly from the web app call so it works
+    // without requiring the onChange trigger to be installed.
+    response.email = sendInquiryEmail(d);
+  } catch (err) {
+    response.result = 'error';
+    response.error = String(err);
+    Logger.log('doPost ERROR: ' + err);
+  }
+
+  return ContentService.createTextOutput(JSON.stringify(response))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
@@ -92,27 +103,32 @@ function testEmail() {
 function onChange(e) {
   if (!e || e.changeType !== 'INSERT_ROW') return;
 
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var lastRow = sheet.getLastRow();
-  if (lastRow < 2) return;
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
+    var lastRow = sheet.getLastRow();
+    if (lastRow < 2) return;
 
-  // Skip if this row was just added by the web app (already emailed by doPost).
-  var cached = CacheService.getScriptCache().get('lastWebAppRow');
-  if (cached === String(lastRow)) return;
+    // Skip if this row was just added by the web app (already emailed by doPost).
+    var cached = CacheService.getScriptCache().get('lastWebAppRow');
+    if (cached === String(lastRow)) return;
 
-  var values = sheet.getRange(lastRow, 1, 1, 5).getValues()[0] || [];
-  var d = {
-    name: values[0] || '',
-    email: values[1] || '',
-    phone: values[2] || '',
-    message: values[3] || '',
-    timestamp: values[4] || new Date().toLocaleString()
-  };
+    var values = sheet.getRange(lastRow, 1, 1, 5).getValues()[0] || [];
+    var d = {
+      name: values[0] || '',
+      email: values[1] || '',
+      phone: values[2] || '',
+      message: values[3] || '',
+      timestamp: values[4] || new Date().toLocaleString()
+    };
 
-  // Skip blank/partial rows so we don't email empty data.
-  if (!d.name || !d.email) return;
+    // Skip blank/partial rows so we don't email empty data.
+    if (!d.name || !d.email) return;
 
-  sendInquiryEmail(d);
+    sendInquiryEmail(d);
+  } catch (err) {
+    Logger.log('onChange ERROR: ' + err);
+  }
 }
 
 /**

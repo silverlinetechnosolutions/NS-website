@@ -358,35 +358,65 @@ document.addEventListener('DOMContentLoaded', () => {
           'Sending inquiry to Google Apps Script...'
         );
 
-        // NOTE: Google Apps Script requires mode 'no-cors',
-        // which returns an opaque response (cannot be read).
-        // Any completed request is treated as a success.
-        await fetch(
-          SHEET_API_URL,
-          {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: formData.toString()
-          }
+        const response =
+          await fetch(
+            SHEET_API_URL,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
+              body: formData.toString()
+            }
+          );
+
+        // ---------------------------------------------------
+        // CHECK HTTP RESPONSE
+        // ---------------------------------------------------
+        if (!response.ok) {
+
+          throw new Error(
+            `HTTP error: ${response.status}`
+          );
+
+        }
+
+
+        // ---------------------------------------------------
+        // READ RESPONSE
+        // ---------------------------------------------------
+        const result =
+          await response.json();
+
+        console.log(
+          'Google Apps Script response:',
+          result
         );
+
 
         // ---------------------------------------------------
         // SUCCESS
         // ---------------------------------------------------
-        console.log(
-          'Inquiry submitted to Google Sheets.'
-        );
+        if (
+          result.result === 'success'
+        ) {
 
-        status.textContent =
-          `Thanks, ${name.split(' ')[0]}! We've received your message and will get back to you shortly.`;
+          status.textContent =
+            `Thanks, ${name.split(' ')[0]}! We've received your message and will get back to you shortly.`;
 
-        status.className =
-          'form-status success';
+          status.className =
+            'form-status success';
 
-        form.reset();
+          form.reset();
+
+        } else {
+
+          throw new Error(
+            result.error ||
+            'Google Apps Script returned an error.'
+          );
+
+        }
 
 
       } catch (error) {
