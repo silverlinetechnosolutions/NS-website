@@ -3,17 +3,49 @@
  * Google Apps Script: Website Inquiry -> Google Sheet + Email Notification
  *
  * SETUP:
- * 1. Paste this entire script into Extensions > Apps Script on your target sheet.
- * 2. Replace ADMIN_EMAIL below with the notification inbox.
- * 3. Deploy > New deployment > Web app
+ * 1. EITHER open your sheet and go to Extensions > Apps Script
+ *    (script becomes "bound" to the sheet), OR create a standalone
+ *    project at script.google.com and set SPREADSHEET_ID below.
+ * 2. Paste this entire script into the editor.
+ * 3. Replace ADMIN_EMAIL below with the notification inbox.
+ * 4. Deploy > New deployment > Web app
  *      - Execute as: Me
  *      - Who has access: Anyone
  *      - Copy the /exec URL and paste it into script.js (SHEET_API_URL).
- * 4. Run installTrigger() ONCE to enable email on manual row insertions.
+ * 5. Run installTrigger() ONCE to enable email on manual row insertions.
  */
 
 var ADMIN_EMAIL = 'info@northstartechnologies.net'; // change to your inbox
 var SHEET_NAME = 'Sheet1';                          // change if your tab is named differently
+
+// OPTIONAL: for standalone scripts only. Find it in the sheet URL:
+// https://docs.google.com/spreadsheets/d/THIS_ID_IS_HERE/edit
+var SPREADSHEET_ID = '';
+
+/**
+ * Returns the target spreadsheet. Works for both bound scripts
+ * (Extensions > Apps Script) and standalone scripts (SPREADSHEET_ID set).
+ */
+function getTargetSheet() {
+  var ss = SPREADSHEET_ID
+    ? SpreadsheetApp.openById(SPREADSHEET_ID)
+    : SpreadsheetApp.getActiveSpreadsheet();
+  return ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
+}
+
+/**
+ * GET handler: lets you verify the web app is alive and reachable
+ * by opening the /exec URL directly in a browser.
+ */
+function doGet() {
+  var sheet = getTargetSheet();
+  var html =
+    '<h2>North Star Technologies — Web App OK</h2>' +
+    '<p>Sheet: ' + sheet.getName() + '</p>' +
+    '<p>Rows: ' + sheet.getLastRow() + '</p>' +
+    '<p>Send a POST (or use the website form) to add an inquiry.</p>';
+  return HtmlService.createHtmlOutput(html);
+}
 
 /**
  * Receives form POSTs from the website, appends a row to the sheet,
@@ -25,8 +57,7 @@ function doPost(e) {
   try {
     var d = (e && e.parameter) || {};
 
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
+    var sheet = getTargetSheet();
 
     var row = [
       d.name || '',
@@ -104,8 +135,7 @@ function onChange(e) {
   if (!e || e.changeType !== 'INSERT_ROW') return;
 
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
+    var sheet = getTargetSheet();
     var lastRow = sheet.getLastRow();
     if (lastRow < 2) return;
 
