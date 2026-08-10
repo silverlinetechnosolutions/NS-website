@@ -10,45 +10,40 @@
 <meta name="author" content="North Star Technologies">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://northstartechnologies.net/">
-<!-- Open Graph / Social -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://northstartechnologies.net/">
 <meta property="og:title" content="North Star Technologies | Quality Technology Solutions">
 <meta property="og:description" content="Delivering innovative technology solutions with quality, reliability, and excellence. ISO 9001:2015 certified.">
-<meta property="og:image" content="https://northstartechnologies.net/logo.png">
 <meta property="og:locale" content="en_IN">
 <meta property="og:site_name" content="North Star Technologies">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="North Star Technologies">
 <meta name="twitter:description" content="Electronic Security, IT Infrastructure, Web Development, QA & Digital Marketing Solutions.">
-<meta name="twitter:image" content="https://northstartechnologies.net/logo.png">
-<link rel="icon" type="image/png" href="logo.png">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Schema.org JSON-LD -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
-"@context": "https://schema.org",
-"@type": "Organization",
-"name": "North Star Technologies",
-"url": "https://northstartechnologies.net",
-"logo": "https://northstartechnologies.net/logo.png",
-"description": "ISO 9001:2015 certified technology solutions company specializing in electronic security, IT infrastructure, digital transformation and business technology solutions.",
-"address": {
-"@type": "PostalAddress",
-"streetAddress": "4-157/GF-1, Gayatri Nivas, Kottevari Street, Ramavarappadu",
-"addressLocality": "Vijayawada",
-"addressRegion": "Andhra Pradesh",
-"postalCode": "521108",
-"addressCountry": "IN"
-},
-"contactPoint": {
-"@type": "ContactPoint",
-"telephone": "+91-9440655527",
-"contactType": "sales & customer support",
-"email": "info@northstartechnologies.net"
-}
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "North Star Technologies",
+  "url": "https://northstartechnologies.net",
+  "description": "ISO 9001:2015 certified technology solutions company specializing in electronic security, IT infrastructure, digital transformation and business technology solutions.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "4-157/GF-1, Gayatri Nivas, Kottevari Street, Ramavarappadu",
+    "addressLocality": "Vijayawada",
+    "addressRegion": "Andhra Pradesh",
+    "postalCode": "521108",
+    "addressCountry": "IN"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+91-9440655527",
+    "contactType": "sales & customer support",
+    "email": "info@northstartechnologies.net"
+  }
 }
 </script>
 <link rel="stylesheet" href="styles.css">
@@ -56,81 +51,111 @@
 <body>
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
-<!-- ====== HEADER / NAVIGATION ====== -->
 <header class="navbar" id="navbar" role="banner">
   <div class="nav-container">
-    <a href="#" class="nav-logo" aria-label="North Star Technologies - Home">
-      <img src="logo.png" alt="North Star Technologies" class="logo-img" loading="eager">
-      <span class="logo-text">North Star <strong>Technologies</strong></span>
+    <a href="#home" class="brand" aria-label="North Star Technologies - Home">
+      <img src="logo.png" alt="North Star Technologies Logo">
     </a>
+
     <nav class="nav-links" id="navLinks" role="navigation" aria-label="Main navigation">
-      <ul>
-        <li><a href="#home" class="active" aria-current="page">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#why-us">Why Us</a></li>
-        <li><a href="#industries">Industries</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+      <a href="#home" class="active" aria-current="page">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#why-us">Why Us</a>
+      <a href="#industries">Industries</a>
+      <a href="#contact">Contact</a>
     </nav>
-    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </button>
+
+    <div class="nav-cta">
+      <a href="#contact" class="btn btn-outline">Get a Quote</a>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
   </div>
 </header>
 
 <main id="main-content">
-  <!-- ====== HERO ====== -->
+
   <section class="hero" id="home">
-    <div class="hero-overlay"></div>
+    <svg class="hero-compass" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <circle class="ring" cx="150" cy="150" r="135"/>
+      <circle class="ring" cx="150" cy="150" r="100"/>
+      <circle class="ring" cx="150" cy="150" r="65"/>
+      <line class="spoke" x1="150" y1="20" x2="150" y2="280" stroke-linecap="round"/>
+      <line class="spoke" x1="30" y1="150" x2="270" y2="150" stroke-linecap="round"/>
+      <line class="spoke" x1="60" y1="60" x2="240" y2="240" stroke-linecap="round"/>
+      <line class="spoke" x1="240" y1="60" x2="60" y2="240" stroke-linecap="round"/>
+      <polygon class="tip-long" points="150,15 140,50 150,45 160,50"/>
+      <polygon class="tip-long" points="150,285 140,250 150,255 160,250"/>
+      <polygon class="tip-long" points="15,150 50,140 45,150 50,160"/>
+      <polygon class="tip-long" points="285,150 250,140 255,150 250,160"/>
+      <polygon class="tip-short" points="65,65 85,80 75,72"/>
+      <polygon class="tip-short" points="235,235 215,220 225,228"/>
+      <polygon class="tip-short" points="235,65 220,85 228,75"/>
+      <polygon class="tip-short" points="65,235 80,215 72,225"/>
+      <circle class="core" cx="150" cy="150" r="8"/>
+    </svg>
+
+    <svg class="hero-dots" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
+      <circle cx="100" cy="200" r="2"/>
+      <circle cx="250" cy="350" r="2"/>
+      <circle cx="420" cy="280" r="2"/>
+      <circle cx="600" cy="450" r="2"/>
+    </svg>
+
     <div class="hero-content">
-      <span class="hero-badge">ISO 9001:2015 Certified Company</span>
-      <h1>North Star Technologies</h1>
-      <p class="hero-tagline">Delivering Innovative Technology Solutions with Quality, Reliability, and Excellence</p>
+      <span class="hero-badge">ISO 9001:2015 Certified</span>
+      <h1>Security, infrastructure, and <span class="accent">digital edge</span></h1>
+      <p class="hero-tagline">North Star guides enterprise technology across Andhra Pradesh — from perimeter cameras to cloud infrastructure, we engineer systems that keep your operations secure, connected, and ahead of the curve.</p>
       <div class="hero-cta">
-        <a href="#services" class="btn btn-primary">Explore Our Services</a>
-        <a href="#contact" class="btn btn-outline">Contact Us</a>
+        <a href="#services" class="btn btn-primary">Explore Services</a>
+        <a href="#contact" class="btn btn-outline">Schedule Consultation</a>
       </div>
     </div>
+
+    <div class="hero-scroll" aria-hidden="true"><span>Scroll to explore</span><span class="line"></span></div>
   </section>
 
-  <!-- ====== COMPANY PROFILE ====== -->
   <section class="section" id="about">
-    <div class="container">
+    <div class="container reveal">
       <div class="section-header">
         <span class="section-eyebrow">Who We Are</span>
         <h2>Company Profile</h2>
         <p class="section-subtitle">A trusted technology partner for government, enterprise, and residential clients.</p>
       </div>
+
       <div class="profile-cards">
-        <div class="profile-card">
-          <div class="card-icon">&#9673;</div>
+        <div class="profile-card reveal">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
           <h3>ISO 9001:2015 Certified</h3>
           <p>An ISO 9001:2015 certified technology solutions company headquartered in Vijayawada, Andhra Pradesh, India.</p>
         </div>
-        <div class="profile-card">
-          <div class="card-icon">&#9673;</div>
+        <div class="profile-card reveal">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          </div>
           <h3>Comprehensive Solutions</h3>
           <p>Specializes in electronic security, IT infrastructure, digital transformation, and business technology solutions.</p>
         </div>
-        <div class="profile-card">
-          <div class="card-icon">&#9673;</div>
+        <div class="profile-card reveal">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3.2"/><path d="M2.5 20c0-3.5 2.8-6 6.5-6s6.5 2.5 6.5 6"/><circle cx="17.5" cy="8" r="2.4"/><path d="M15.3 14.2c2.7.4 4.7 2.5 4.7 5.3"/></svg>
+          </div>
           <h3>Diverse Clientele</h3>
           <p>Serving government organizations, enterprises, educational institutions, commercial establishments, and residential customers.</p>
         </div>
       </div>
-      <div class="profile-detail">
-        <p>With a strong focus on <strong>quality, innovation, and customer satisfaction</strong>, North Star Technologies offers end-to-end services—from consultation and design to implementation, maintenance, and technical support. Every solution is engineered to meet international quality standards while addressing the unique operational needs of clients.</p>
-      </div>
     </div>
   </section>
 
-  <!-- ====== VISION & MISSION ====== -->
   <section class="section section-alt" id="vision-mission">
     <div class="container">
-      <div class="vm-grid">
+      <div class="vm-grid reveal">
         <div class="vm-card vision">
           <span class="vm-label">Our Vision</span>
           <h3>Trusted Technology Partner</h3>
@@ -143,193 +168,180 @@
             <li>Deliver world-class technology solutions that exceed customer expectations.</li>
             <li>Build long-term partnerships through quality, integrity, and exceptional service.</li>
             <li>Continuously innovate and adopt emerging technologies.</li>
-            <li>Maintain the highest standards of quality through our ISO 9001:2015 Quality Management System.</li>
+            <li>Maintain the highest standards of quality through our ISO 9001:2015 QMS.</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ====== SERVICES ====== -->
   <section class="section" id="services">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-eyebrow">What We Do</span>
         <h2>Our Services</h2>
         <p class="section-subtitle">End-to-end technology solutions delivered under one roof.</p>
       </div>
+
       <div class="services-grid">
-
-        <article class="service-card">
-          <span class="service-num">01</span>
-          <h3>Electronic Security Solutions</h3>
-          <ul>
-            <li>CCTV Surveillance Systems</li>
-            <li>IP &amp; AI-based Video Surveillance</li>
-            <li>Access Control Systems</li>
-            <li>Biometric Attendance Systems</li>
-            <li>Video Door Phones</li>
-            <li>Intrusion Alarm Systems</li>
-            <li>Fire Alarm &amp; Safety Systems</li>
-            <li>Public Address Systems</li>
-            <li>Boom Barriers &amp; Parking Solutions</li>
-          </ul>
+        <article class="service-card reveal">
+          <div class="service-visual">
+            <img src="service-security.svg" alt="CCTV and IP surveillance cameras for electronic security" loading="lazy">
+          </div>
+          <div class="service-body">
+            <h3>Electronic Security</h3>
+            <ul>
+              <li>CCTV & IP Surveillance</li>
+              <li>Access Control Systems</li>
+              <li>Biometric Attendance</li>
+              <li>Intrusion & Fire Alarms</li>
+              <li>Public Address Systems</li>
+            </ul>
+          </div>
         </article>
 
-        <article class="service-card">
-          <span class="service-num">02</span>
-          <h3>Surveying &amp; Infrastructure Solutions</h3>
-          <ul>
-            <li>Surveying Equipment</li>
-            <li>GIS &amp; Mapping Solutions</li>
-            <li>Infrastructure Technology Solutions</li>
-            <li>Installation &amp; Commissioning</li>
-            <li>Calibration &amp; Maintenance</li>
-          </ul>
+        <article class="service-card reveal">
+          <div class="service-visual">
+            <img src="service-surveying.svg" alt="GIS mapping and surveying compass illustration" loading="lazy">
+          </div>
+          <div class="service-body">
+            <h3>Surveying & Infrastructure</h3>
+            <ul>
+              <li>GIS & Mapping</li>
+              <li>Surveying Equipment</li>
+              <li>Infrastructure Solutions</li>
+              <li>Calibration Services</li>
+            </ul>
+          </div>
         </article>
 
-        <article class="service-card">
-          <span class="service-num">03</span>
-          <h3>IT Infrastructure</h3>
-          <ul>
-            <li>Network Design &amp; Implementation</li>
-            <li>Structured Cabling</li>
-            <li>Server Installation &amp; Configuration</li>
-            <li>Storage Solutions</li>
-            <li>Computer Hardware &amp; Peripherals</li>
-            <li>IT Infrastructure Maintenance</li>
-            <li>Annual Maintenance Contracts (AMC)</li>
-          </ul>
+        <article class="service-card reveal">
+          <div class="service-visual">
+            <img src="service-it.svg" alt="Server rack and network infrastructure illustration" loading="lazy">
+          </div>
+          <div class="service-body">
+            <h3>IT Infrastructure</h3>
+            <ul>
+              <li>Network Design</li>
+              <li>Structured Cabling</li>
+              <li>Server Setup</li>
+              <li>Storage Solutions</li>
+              <li>Maintenance Contracts</li>
+            </ul>
+          </div>
         </article>
 
-        <article class="service-card">
-          <span class="service-num">04</span>
-          <h3>Website Development &amp; Maintenance</h3>
-          <ul>
-            <li>Corporate Website Design</li>
-            <li>E-commerce Development</li>
-            <li>Responsive Web Applications</li>
-            <li>Website Maintenance</li>
-            <li>Website Performance Optimization</li>
-            <li>Website Security &amp; Backup Solutions</li>
-          </ul>
+        <article class="service-card reveal">
+          <div class="service-visual">
+            <img src="service-web.svg" alt="Code editor and website development illustration" loading="lazy">
+          </div>
+          <div class="service-body">
+            <h3>Web Development</h3>
+            <ul>
+              <li>Corporate Websites</li>
+              <li>E-commerce Platforms</li>
+              <li>Web Applications</li>
+              <li>Maintenance & Support</li>
+            </ul>
+          </div>
         </article>
 
-        <article class="service-card">
-          <span class="service-num">05</span>
-          <h3>Software Quality Assurance</h3>
-          <ul>
-            <li>Manual Testing</li>
-            <li>Functional Testing</li>
-            <li>Regression Testing</li>
-            <li>User Acceptance Testing (UAT)</li>
-            <li>Software Quality Audits</li>
-            <li>Test Documentation</li>
-            <li>Quality Process Improvement</li>
-          </ul>
+        <article class="service-card reveal">
+          <div class="service-visual">
+            <img src="service-qa.svg" alt="QA testing checklist with verification marks" loading="lazy">
+          </div>
+          <div class="service-body">
+            <h3>QA & Testing</h3>
+            <ul>
+              <li>Manual Testing</li>
+              <li>Functional Testing</li>
+              <li>Regression Testing</li>
+              <li>UAT Support</li>
+            </ul>
+          </div>
         </article>
 
-        <article class="service-card">
-          <span class="service-num">06</span>
-          <h3>Digital Marketing</h3>
-          <ul>
-            <li>Search Engine Optimization (SEO)</li>
-            <li>Search Engine Marketing (SEM)</li>
-            <li>Social Media Marketing</li>
-            <li>Content Marketing</li>
-            <li>Email Marketing</li>
-            <li>Online Brand Promotion</li>
-            <li>Analytics &amp; Performance Reporting</li>
-          </ul>
+        <article class="service-card reveal">
+          <div class="service-visual">
+            <img src="service-marketing.svg" alt="Digital marketing growth chart illustration" loading="lazy">
+          </div>
+          <div class="service-body">
+            <h3>Digital Marketing</h3>
+            <ul>
+              <li>SEO & SEM</li>
+              <li>Social Media Marketing</li>
+              <li>Content Marketing</li>
+              <li>Email Campaigns</li>
+            </ul>
+          </div>
         </article>
-
-        <article class="service-card">
-          <span class="service-num">07</span>
-          <h3>Business Development &amp; IT Consulting</h3>
-          <ul>
-            <li>Technology Consulting</li>
-            <li>Digital Transformation</li>
-            <li>Business Process Optimization</li>
-            <li>IT Project Management</li>
-            <li>Enterprise Technology Solutions</li>
-          </ul>
-        </article>
-
       </div>
     </div>
   </section>
 
-  <!-- ====== WHY CHOOSE US ====== -->
   <section class="section section-alt" id="why-us">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-eyebrow">The Difference</span>
-        <h2>Why Choose North Star Technologies?</h2>
+        <h2>Why Choose North Star?</h2>
       </div>
-      <div class="why-grid">
-        <div class="why-item"><span class="why-check">&#10003;</span> ISO 9001:2015 Certified Quality Management System</div>
-        <div class="why-item"><span class="why-check">&#10003;</span> Experienced and qualified technical professionals</div>
-        <div class="why-item"><span class="why-check">&#10003;</span> End-to-end technology solutions under one roof</div>
-        <div class="why-item"><span class="why-check">&#10003;</span> Customized solutions based on customer requirements</div>
-        <div class="why-item"><span class="why-check">&#10003;</span> Reliable after-sales support and maintenance</div>
-        <div class="why-item"><span class="why-check">&#10003;</span> Timely project execution</div>
-        <div class="why-item"><span class="why-check">&#10003;</span> Commitment to innovation and customer satisfaction</div>
-        <div class="why-item"><span class="why-check">&#10003;</span> Competitive pricing with uncompromised quality</div>
+      <div class="why-grid reveal">
+        <div class="why-item"><span class="why-check">✓</span> ISO 9001:2015 certified quality management</div>
+        <div class="why-item"><span class="why-check">✓</span> Experienced technical professionals</div>
+        <div class="why-item"><span class="why-check">✓</span> End-to-end solutions, one partner</div>
+        <div class="why-item"><span class="why-check">✓</span> Customized to your specific needs</div>
+        <div class="why-item"><span class="why-check">✓</span> Reliable post-sale support</div>
+        <div class="why-item"><span class="why-check">✓</span> On-time project execution</div>
+        <div class="why-item"><span class="why-check">✓</span> Commitment to innovation</div>
+        <div class="why-item"><span class="why-check">✓</span> Competitive pricing, uncompromised quality</div>
       </div>
     </div>
   </section>
 
-  <!-- ====== INDUSTRIES ====== -->
-  <section class="section" id="industries">
+  <section class="section section-dark" id="industries">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-eyebrow">Who We Serve</span>
         <h2>Industries We Serve</h2>
       </div>
-      <div class="industries-grid">
-        <span class="industry-tag">Government Departments</span>
-        <span class="industry-tag">Educational Institutions</span>
+      <div class="industries-grid reveal">
+        <span class="industry-tag">Government</span>
+        <span class="industry-tag">Education</span>
         <span class="industry-tag">Healthcare</span>
         <span class="industry-tag">Manufacturing</span>
-        <span class="industry-tag">Corporate Offices</span>
-        <span class="industry-tag">Banking &amp; Financial Institutions</span>
-        <span class="industry-tag">Retail &amp; Commercial Establishments</span>
+        <span class="industry-tag">Corporate</span>
+        <span class="industry-tag">Banking & Finance</span>
+        <span class="industry-tag">Retail</span>
         <span class="industry-tag">Hospitality</span>
-        <span class="industry-tag">Residential Communities</span>
-        <span class="industry-tag">Infrastructure Projects</span>
+        <span class="industry-tag">Residential</span>
+        <span class="industry-tag">Infrastructure</span>
       </div>
     </div>
   </section>
 
-  <!-- ====== COMMITMENT ====== -->
   <section class="section section-commitment" id="commitment">
     <div class="container">
-      <div class="commitment-inner">
+      <div class="commitment-inner reveal">
         <h2>Our Commitment</h2>
-        <p>At North Star Technologies, quality is not just a certification—it is the foundation of everything we do. We strive to build lasting relationships with our customers by delivering dependable technology solutions backed by professional support and continuous improvement.</p>
+        <p>At North Star Technologies, quality is not just a certification — it is the foundation of everything we do. We strive to build lasting relationships with our customers by delivering dependable technology solutions backed by professional support and continuous improvement.</p>
         <p class="tagline">"Quality Technology Solutions for a Secure, Connected, and Digital Future."</p>
       </div>
     </div>
   </section>
 
-  <!-- ====== CONTACT ====== -->
   <section class="section" id="contact">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-eyebrow">Get In Touch</span>
         <h2>Contact Us</h2>
       </div>
+
       <div class="contact-grid">
-        <div class="contact-info">
+        <div class="contact-info reveal">
           <h3>North Star Technologies</h3>
           <div class="contact-block">
             <h4>Head Office</h4>
-            <p>
-              4-157/GF-1, Gayatri Nivas<br>
-              Kottevari Street, Ramavarappadu<br>
-              Vijayawada &ndash; 521108<br>
-              Andhra Pradesh, India
-            </p>
+            <p>4-157/GF-1, Gayatri Nivas<br>Kottevari Street, Ramavarappadu<br>Vijayawada – 521108<br>Andhra Pradesh, India</p>
           </div>
           <div class="contact-block">
             <h4>Phone</h4>
@@ -340,22 +352,23 @@
             <p><a href="mailto:info@northstartechnologies.net">info@northstartechnologies.net</a></p>
           </div>
         </div>
-        <form class="contact-form" id="contactForm" novalidate>
+
+        <form class="contact-form reveal" id="contactForm" novalidate>
           <div class="form-group">
             <label for="name">Full Name</label>
             <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name">
           </div>
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+            <input type="email" id="email" name="email" placeholder="you@company.com" required autocomplete="email">
           </div>
           <div class="form-group">
             <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" placeholder="9876543210" autocomplete="tel" pattern="^[0-9]{10}$" maxlength="10">
+            <input type="tel" id="phone" name="phone" placeholder="9876543210" autocomplete="tel">
           </div>
           <div class="form-group">
             <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5" placeholder="How can we help you?" required></textarea>
+            <textarea id="message" name="message" rows="5" placeholder="Tell us about your project..." required></textarea>
           </div>
           <button type="submit" class="btn btn-primary" id="submitBtn">Send Message</button>
           <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
@@ -363,13 +376,15 @@
       </div>
     </div>
   </section>
+
 </main>
 
-<!-- ====== FOOTER ====== -->
 <footer class="footer">
   <div class="container">
     <div class="footer-brand">
-      <img src="logo.png" alt="North Star Technologies" class="footer-logo">
+      <a href="#home" class="brand" aria-label="North Star Technologies - Home">
+        <img src="logo-white.png" alt="North Star Technologies Logo">
+      </a>
       <p class="footer-tagline">"Quality Technology Solutions for a Secure, Connected, and Digital Future."</p>
     </div>
     <div class="footer-bottom">

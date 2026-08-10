@@ -1,148 +1,99 @@
-/* ===== North Star Technologies - Scripts ===== */
-
-document.addEventListener('DOMContentLoaded', function () {
-  const navbar = document.getElementById('navbar');
-  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-  const navLinks = document.getElementById('navLinks');
+document.addEventListener('DOMContentLoaded', () => {
   const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  /* ---------- Footer year ---------- */
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
+  const navbar = document.getElementById('navbar');
+  const menuBtn = document.getElementById('mobileMenuBtn');
+  const navLinks = document.getElementById('navLinks');
+
+  if (menuBtn && navLinks) {
+    menuBtn.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
   }
 
-  /* ---------- Navbar scroll state ---------- */
-  const onScroll = function () {
-    if (window.scrollY > 10) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
-  };
-  window.addEventListener('scroll', onScroll);
-  onScroll();
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+  }, { passive: true });
 
-  /* ---------- Mobile menu toggle ---------- */
-  const toggleMenu = function (open) {
-    const isOpen = open !== undefined ? open : !navLinks.classList.contains('open');
-    navLinks.classList.toggle('open', isOpen);
-    mobileMenuBtn.classList.toggle('open', isOpen);
-    mobileMenuBtn.setAttribute('aria-expanded', String(isOpen));
-  };
-
-  mobileMenuBtn.addEventListener('click', function () {
-    toggleMenu();
-  });
-
-  /* Close menu when a nav link is clicked */
-  navLinks.querySelectorAll('a').forEach(function (link) {
-    link.addEventListener('click', function () {
-      toggleMenu(false);
-    });
-  });
-
-  /* Close menu on outside click / Escape */
-  document.addEventListener('click', function (e) {
-    if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-      toggleMenu(false);
-    }
-  });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') {
-      toggleMenu(false);
-    }
-  });
-
-  /* ---------- Active nav link on scroll ---------- */
   const sections = document.querySelectorAll('main section[id]');
-  const navAnchors = navLinks.querySelectorAll('a[href^="#"]');
+  const navAnchors = document.querySelectorAll('.nav-links a');
 
-  const observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
+  const setActiveLink = () => {
+    let currentId = sections[0] ? sections[0].id : '';
+    const scrollPos = window.scrollY + 120;
+
+    sections.forEach(section => {
+      if (section.offsetTop <= scrollPos) currentId = section.id;
+    });
+
+    navAnchors.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === `#${currentId}`);
+    });
+  };
+
+  window.addEventListener('scroll', setActiveLink, { passive: true });
+  setActiveLink();
+
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && revealEls.length) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const id = entry.target.getAttribute('id');
-          navAnchors.forEach(function (a) {
-            a.classList.toggle('active', a.getAttribute('href') === '#' + id);
-          });
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
         }
       });
-    },
-    { rootMargin: '-40% 0px -55% 0px' }
-  );
+    }, { threshold: 0.12 });
 
-  sections.forEach(function (s) {
-    observer.observe(s);
-  });
+    revealEls.forEach(el => observer.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
 
-  /* ---------- Contact form validation + demo submit ---------- */
   const form = document.getElementById('contactForm');
-  const statusEl = document.getElementById('formStatus');
+  const status = document.getElementById('formStatus');
   const submitBtn = document.getElementById('submitBtn');
 
   if (form) {
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const name = document.getElementById('name');
-      const email = document.getElementById('email');
-      const phone = document.getElementById('phone');
-      const message = document.getElementById('message');
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-      let valid = true;
-      const inputs = [name, email, message];
-      inputs.forEach(function (el) {
-        if (!el.value.trim()) {
-          el.classList.add('error');
-          valid = false;
-        } else {
-          el.classList.remove('error');
-        }
-      });
-
-      if (email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
-        email.classList.add('error');
-        valid = false;
+      if (!name || !email || !message) {
+        status.textContent = 'Please fill in your name, email, and message.';
+        status.className = 'form-status error';
+        return;
       }
-
-      if (phone.value.trim() && !/^[0-9]{10}$/.test(phone.value.trim())) {
-        phone.classList.add('error');
-        valid = false;
-      }
-
-      if (!valid) {
-        statusEl.textContent = 'Please fill in the highlighted fields correctly.';
-        statusEl.className = 'form-status error';
+      if (!emailPattern.test(email)) {
+        status.textContent = 'Please enter a valid email address.';
+        status.className = 'form-status error';
         return;
       }
 
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending...';
-      statusEl.textContent = '';
 
-      const payload = {
-        name: name.value.trim(),
-        email: email.value.trim(),
-        phone: phone.value.trim(),
-        message: message.value.trim()
-      };
-
-      console.log('Form submitted (demo handler):', payload);
-
-      setTimeout(function () {
+      setTimeout(() => {
+        status.textContent = `Thanks, ${name.split(' ')[0]}! We've received your message and will get back to you shortly.`;
+        status.className = 'form-status success';
+        form.reset();
         submitBtn.disabled = false;
         submitBtn.textContent = 'Send Message';
-        statusEl.textContent = 'Thank you! Your message has been recorded. We will get back to you shortly.';
-        statusEl.className = 'form-status success';
-        form.reset();
-      }, 900);
-    });
-
-    /* Clear error styling on input */
-    form.querySelectorAll('input, textarea').forEach(function (el) {
-      el.addEventListener('input', function () {
-        el.classList.remove('error');
-      });
+      }, 700);
     });
   }
 });

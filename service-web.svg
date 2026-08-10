@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 132" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1C2226"/>
+      <stop offset="1" stop-color="#223138"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="132" fill="url(#bg)"/>
+  <circle cx="345" cy="110" r="70" fill="none" stroke="#0FA0A4" stroke-opacity=".12" stroke-width="1"/>
+  <circle cx="345" cy="110" r="45" fill="none" stroke="#0FA0A4" stroke-opacity=".12" stroke-width="1"/>
+  <g transform="translate(62,8)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="0" y="0" width="140" height="116" rx="6" stroke="#E7ECEE" stroke-width="2"/>
+    <line x1="0" y1="22" x2="140" y2="22" stroke="#0FA0A4" stroke-width="2"/>
+    <circle cx="10" cy="11" r="3" fill="#E1A23A" stroke="none"/>
+    <circle cx="20" cy="11" r="3" fill="#E1A23A" stroke="none"/>
+    <circle cx="30" cy="11" r="3" fill="#E1A23A" stroke="none"/>
+    <path d="M14 40 L22 48 L14 56" stroke="#0FA0A4" stroke-width="2.5"/>
+    <path d="M28 40 h18" stroke="#E7ECEE" stroke-width="2.5"/>
+    <rect x="60" y="36" width="34" height="24" rx="3" stroke="#5B646B" stroke-width="2"/>
+    <path d="M100 78 L108 86 L100 94" stroke="#0FA0A4" stroke-width="2.5"/>
+    <path d="M114 78 h14" stroke="#E7ECEE" stroke-width="2.5"/>
+    <path d="M14 78 L22 86 L14 94" stroke="#0FA0A4" stroke-width="2.5"/>
+    <path d="M28 78 h22" stroke="#E7ECEE" stroke-width="2.5"/>
+  </g>
+</svg>
