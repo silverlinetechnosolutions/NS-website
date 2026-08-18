@@ -15,7 +15,7 @@
  * 5. Run installTrigger() ONCE to enable email on manual row insertions.
  */
 
-var ADMIN_EMAIL = 'info@northstartechnologies.net'; // change to your inbox
+var ADMIN_EMAIL = 'northstartechnologies.in@gmail.com'; // change to your inbox
 var SHEET_NAME = 'Sheet1';                          // change if your tab is named differently
 
 // OPTIONAL: for standalone scripts only. Find it in the sheet URL:
