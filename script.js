@@ -218,11 +218,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const name =
         form.name.value.trim();
 
+      const company =
+        form.company.value.trim();
+
       const email =
         form.email.value.trim();
 
       const phone =
         form.phone.value.trim();
+
+      const service =
+        form.service.value.trim();
 
       const message =
         form.message.value.trim();
@@ -324,6 +330,11 @@ document.addEventListener('DOMContentLoaded', () => {
       );
 
       formData.append(
+        'company',
+        company
+      );
+
+      formData.append(
         'email',
         email
       );
@@ -331,6 +342,11 @@ document.addEventListener('DOMContentLoaded', () => {
       formData.append(
         'phone',
         phone
+      );
+
+      formData.append(
+        'service',
+        service
       );
 
       formData.append(
@@ -444,7 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.disabled = false;
 
         submitBtn.textContent =
-          'Send Message';
+          'Request a Consultation';
 
       }
 

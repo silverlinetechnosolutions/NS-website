@@ -61,8 +61,10 @@ function doPost(e) {
 
     var row = [
       d.name || '',
+      d.company || '',
       d.email || '',
       d.phone || '',
+      d.service || '',
       d.message || '',
       d.timestamp || new Date().toLocaleString()
     ];
@@ -95,8 +97,10 @@ function sendInquiryEmail(d) {
     'A new inquiry was received on the North Star Technologies website.',
     '-------------------------------------------',
     'Name:      ' + (d.name || '-'),
+    'Company:   ' + (d.company || '-'),
     'Email:     ' + (d.email || '-'),
     'Phone:     ' + (d.phone || '-'),
+    'Service:   ' + (d.service || '-'),
     'Message:   ' + (d.message || '-'),
     'Submitted: ' + (d.timestamp || '-'),
     '-------------------------------------------',
@@ -119,8 +123,10 @@ function sendInquiryEmail(d) {
 function testEmail() {
   var status = sendInquiryEmail({
     name: 'Test User',
+    company: 'Test Company Pvt Ltd',
     email: 'test@example.com',
     phone: '+91 98765 43210',
+    service: 'Electronic Security',
     message: 'This is a test email from the Apps Script.',
     timestamp: new Date().toLocaleString()
   });
@@ -143,13 +149,15 @@ function onChange(e) {
     var cached = CacheService.getScriptCache().get('lastWebAppRow');
     if (cached === String(lastRow)) return;
 
-    var values = sheet.getRange(lastRow, 1, 1, 5).getValues()[0] || [];
+    var values = sheet.getRange(lastRow, 1, 1, 7).getValues()[0] || [];
     var d = {
       name: values[0] || '',
-      email: values[1] || '',
-      phone: values[2] || '',
-      message: values[3] || '',
-      timestamp: values[4] || new Date().toLocaleString()
+      company: values[1] || '',
+      email: values[2] || '',
+      phone: values[3] || '',
+      service: values[4] || '',
+      message: values[5] || '',
+      timestamp: values[6] || new Date().toLocaleString()
     };
 
     // Skip blank/partial rows so we don't email empty data.
