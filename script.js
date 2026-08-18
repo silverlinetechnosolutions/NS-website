@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // GOOGLE APPS SCRIPT WEB APP URL
   // =========================================================
   const SHEET_API_URL =
-    'https://script.google.com/macros/s/AKfycbwNaBUEfqMJDliUgYery-Rz1V3HKG8Qwp2FMHc9RqZssNnmdt69K4PWHhtOjI7M0VsG/exec';
+    'https://script.google.com/macros/s/AKfycbxCp2cIDV1ENc4C2-IzDo7lUw2K-3Iruj6b-K6dlqtHzoqf5HpVwJv6LI7ADSPHKrq6/exec';
 
 
   // =========================================================
