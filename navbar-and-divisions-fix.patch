@@ -1,0 +1,223 @@
+From f407342f6c8ab238e4e0f4f3ee852ea2a78d93a2 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Thu, 20 Aug 2026 16:13:14 +0000
+Subject: [PATCH] Fix oversized navbar and correct services/divisions grouping
+
+- Navbar logo/header was 184px tall (logo forced to 172px), dwarfing
+  the page and pushing hero content far down. Reduced to a normal
+  84px header with a properly sized logo, introduced a --nav-h
+  variable so the hero offset, section scroll-margin, mobile menu
+  position, and footer logo all stay in sync.
+- Services section previously merged 6 distinct offerings into 3
+  mismatched cards (GIS/surveying dumped into IT Infrastructure;
+  Web Dev, QA, Digital Transformation and Marketing all crammed
+  into one 'Digital Solutions' card), while dedicated icons for
+  surveying, QA and marketing already existed in the repo unused.
+  Split into 6 accurate divisions (Security, Networks, Survey, Web,
+  QA, Marketing), each with its own icon and correct service list.
+- Updated footer Solutions list to match the 6 divisions, keeping
+  it consistent with the services section and the contact form's
+  existing 6-option service dropdown.
+---
+ index.html | 87 ++++++++++++++++++++++++++++++++++++++++++++----------
+ styles.css | 15 +++++-----
+ 2 files changed, 79 insertions(+), 23 deletions(-)
+
+diff --git a/index.html b/index.html
+index f68a37e..9bd492e 100644
+--- a/index.html
++++ b/index.html
+@@ -185,8 +185,8 @@
+     <div class="container">
+       <div class="section-header reveal">
+         <span class="section-eyebrow">What We Do</span>
+-        <h2>Three Integrated Capabilities</h2>
+-        <p class="section-subtitle">One technology partner for security, infrastructure and digital solutions — designed, deployed and supported under one roof.</p>
++        <h2>Six Specialized Divisions</h2>
++        <p class="section-subtitle">One technology partner across security, infrastructure, surveying and digital — each division designed, deployed and supported under one roof.</p>
+       </div>
+ 
+       <div class="services-grid">
+@@ -214,15 +214,14 @@
+             <img src="service-it.svg" alt="IT infrastructure systems" loading="lazy">
+           </div>
+           <div class="service-body">
+-            <span class="service-flag">Division 02 — Infrastructure</span>
++            <span class="service-flag">Division 02 — Networks</span>
+             <h3>IT Infrastructure</h3>
+-            <p class="service-intro">Connect and scale your organization with structured networks, resilient server environments and location intelligence.</p>
++            <p class="service-intro">Connect and scale your organization with structured networks, resilient server environments and dependable technical support.</p>
+             <ul>
+               <li>Network Design & Structured Cabling</li>
+               <li>Servers & Storage</li>
+-              <li>GIS & Surveying / Infrastructure Projects</li>
+               <li>AMC & Technical Support</li>
+-              <li>Survey Equipment & Calibration</li>
++              <li>Data Backup & Recovery</li>
+             </ul>
+             <a href="#contact" class="service-link">Discuss an infrastructure requirement &rarr;</a>
+           </div>
+@@ -230,19 +229,73 @@
+ 
+         <article class="service-card reveal service-division">
+           <div class="service-visual">
+-            <img src="service-web.svg" alt="Digital solutions" loading="lazy">
++            <img src="service-surveying.svg" alt="GIS and land surveying" loading="lazy">
+           </div>
+           <div class="service-body">
+-            <span class="service-flag">Division 03 — Digital</span>
+-            <h3>Digital Solutions</h3>
+-            <p class="service-intro">Transform your operations with web platforms, quality-assured software and growth-focused digital marketing.</p>
++            <span class="service-flag">Division 03 — Survey</span>
++            <h3>GIS & Surveying</h3>
++            <p class="service-intro">Location intelligence and field survey services for government and infrastructure projects, backed by calibrated equipment.</p>
+             <ul>
+-              <li>Web Development</li>
+-              <li>QA & Testing</li>
+-              <li>Digital Transformation</li>
+-              <li>Digital Marketing</li>
++              <li>GIS Mapping & Spatial Analysis</li>
++              <li>Land & Infrastructure Surveying</li>
++              <li>Survey Equipment Supply</li>
++              <li>Equipment Calibration Services</li>
+             </ul>
+-            <a href="#contact" class="service-link">Discuss a digital requirement &rarr;</a>
++            <a href="#contact" class="service-link">Discuss a surveying requirement &rarr;</a>
++          </div>
++        </article>
++
++        <article class="service-card reveal service-division">
++          <div class="service-visual">
++            <img src="service-web.svg" alt="Web development" loading="lazy">
++          </div>
++          <div class="service-body">
++            <span class="service-flag">Division 04 — Web</span>
++            <h3>Web Development</h3>
++            <p class="service-intro">Websites and web applications built for performance, built to represent your organization professionally online.</p>
++            <ul>
++              <li>Website & Web App Development</li>
++              <li>E-Commerce Platforms</li>
++              <li>CMS & Portal Development</li>
++              <li>Hosting & Maintenance</li>
++            </ul>
++            <a href="#contact" class="service-link">Discuss a web requirement &rarr;</a>
++          </div>
++        </article>
++
++        <article class="service-card reveal service-division">
++          <div class="service-visual">
++            <img src="service-qa.svg" alt="Software quality assurance and testing" loading="lazy">
++          </div>
++          <div class="service-body">
++            <span class="service-flag">Division 05 — QA</span>
++            <h3>QA & Testing</h3>
++            <p class="service-intro">Independent software quality assurance so what you ship works reliably, backed by our ISO 9001:2015 process discipline.</p>
++            <ul>
++              <li>Manual & Automated Testing</li>
++              <li>Software Quality Assurance</li>
++              <li>Performance & Security Testing</li>
++              <li>ISO-Aligned QA Processes</li>
++            </ul>
++            <a href="#contact" class="service-link">Discuss a QA requirement &rarr;</a>
++          </div>
++        </article>
++
++        <article class="service-card reveal service-division">
++          <div class="service-visual">
++            <img src="service-marketing.svg" alt="Digital marketing" loading="lazy">
++          </div>
++          <div class="service-body">
++            <span class="service-flag">Division 06 — Marketing</span>
++            <h3>Digital Marketing</h3>
++            <p class="service-intro">Growth-focused digital marketing that builds visibility and generates qualified demand for your organization.</p>
++            <ul>
++              <li>SEO & SEM</li>
++              <li>Social Media Management</li>
++              <li>Content & Branding</li>
++              <li>Analytics & Growth Campaigns</li>
++            </ul>
++            <a href="#contact" class="service-link">Discuss a marketing requirement &rarr;</a>
+           </div>
+         </article>
+       </div>
+@@ -415,7 +468,9 @@
+           <li><a href="#services">Electronic Security</a></li>
+           <li><a href="#services">IT Infrastructure</a></li>
+           <li><a href="#services">GIS &amp; Surveying</a></li>
+-          <li><a href="#services">Digital Solutions</a></li>
++          <li><a href="#services">Web Development</a></li>
++          <li><a href="#services">QA &amp; Testing</a></li>
++          <li><a href="#services">Digital Marketing</a></li>
+         </ul>
+       </div>
+       <div class="footer-col">
+diff --git a/styles.css b/styles.css
+index adb197e..9ec9e05 100644
+--- a/styles.css
++++ b/styles.css
+@@ -36,6 +36,7 @@
+   --radius-md:12px;
+   --radius-lg:22px;
+   --ease:cubic-bezier(.22,.8,.32,1);
++  --nav-h:84px;
+ }
+ 
+ *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+@@ -62,9 +63,9 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.15;col
+ 
+ .navbar{position:fixed;inset:0 0 auto 0;z-index:100;background:rgba(246,247,246,.88);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--line);transition:box-shadow .3s;}
+ .navbar.scrolled{box-shadow:0 8px 24px -18px rgba(28,34,38,.35);}
+-.nav-container{max-width:var(--container);margin:0 auto;padding:0 24px;height:184px;display:flex;align-items:center;justify-content:space-between;gap:2rem;}
++.nav-container{max-width:var(--container);margin:0 auto;padding:0 24px;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;gap:2rem;}
+ .brand{display:flex;align-items:center;gap:.4rem;}
+-.brand img{height:172px;width:auto;display:block;}
++.brand img{height:46px;width:auto;display:block;}
+ 
+ .nav-links{display:flex;align-items:center;gap:2.1rem;}
+ .nav-links a{font-size:.9rem;font-weight:500;color:var(--slate);position:relative;padding:.3rem 0;transition:color .25s;}
+@@ -83,7 +84,7 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.15;col
+ .mobile-menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0;}
+ .mobile-menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+ 
+-.hero{position:relative;min-height:92vh;display:flex;align-items:center;background:radial-gradient(120% 100% at 20% 0%, #26343A 0%, var(--slate-900) 55%, #12171A 100%);overflow:hidden;padding:240px 0 100px;}
++.hero{position:relative;min-height:92vh;display:flex;align-items:center;background:radial-gradient(120% 100% at 20% 0%, #26343A 0%, var(--slate-900) 55%, #12171A 100%);overflow:hidden;padding:calc(var(--nav-h) + 56px) 0 100px;}
+ .hero-compass{position:absolute;top:50%;right:-6%;width:640px;height:640px;transform:translateY(-50%);opacity:.9;pointer-events:none;animation:spin-slow 90s linear infinite;}
+ @keyframes spin-slow{to{transform:translateY(-50%) rotate(360deg);}}
+ .hero-compass .spoke{stroke:rgba(255,255,255,.14);stroke-width:1;}
+@@ -114,7 +115,7 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.15;col
+ .hero-scroll .line{width:1px;height:34px;background:linear-gradient(to bottom, rgba(255,255,255,.5), transparent);animation:draw 2.2s ease-in-out infinite;}
+ @keyframes draw{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}50.01%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+ 
+-.section{padding:120px 0;scroll-margin-top:200px;}
++.section{padding:120px 0;scroll-margin-top:calc(var(--nav-h) + 24px);}
+ .section-alt{background:var(--paper-alt);}
+ .section-dark{background:var(--slate-900);color:#fff;}
+ .section-header{max-width:640px;margin:0 auto 3.5rem;text-align:center;}
+@@ -212,7 +213,7 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.15;col
+ 
+ .footer{background:var(--slate-900);color:rgba(255,255,255,.6);padding:64px 0 32px;}
+ .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 1.2fr;gap:2.4rem;padding-bottom:3rem;}
+-.footer-about .brand img{height:150px;width:auto;margin-bottom:1rem;}
++.footer-about .brand img{height:56px;width:auto;margin-bottom:1rem;}
+ .footer-about p{font-size:.95rem;max-width:280px;line-height:1.55;}
+ .footer-col h4{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin-bottom:1.1rem;font-weight:500;}
+ .footer-col ul{display:flex;flex-direction:column;gap:.6rem;}
+@@ -246,13 +247,13 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.15;col
+ }
+ @media (max-width:760px){
+   .nav-links,.nav-cta .btn-outline{display:none;}
+-  .nav-links.open{display:flex;position:fixed;inset:184px 0 auto 0;background:var(--paper);flex-direction:column;padding:1.5rem 24px;gap:1.2rem;border-bottom:1px solid var(--line);box-shadow:0 16px 30px -20px rgba(28,34,38,.25);}
++  .nav-links.open{display:flex;position:fixed;inset:var(--nav-h) 0 auto 0;background:var(--paper);flex-direction:column;padding:1.5rem 24px;gap:1.2rem;border-bottom:1px solid var(--line);box-shadow:0 16px 30px -20px rgba(28,34,38,.25);}
+   .mobile-menu-btn{display:flex;}
+   .services-grid{grid-template-columns:1fr;}
+   .cap-grid{grid-template-columns:1fr;}
+   .industries-grid{grid-template-columns:1fr;}
+   .section{padding:80px 0;}
+-  .hero{padding:230px 0 80px;text-align:center;}
++  .hero{padding:calc(var(--nav-h) + 46px) 0 80px;text-align:center;}
+   .hero-content{margin:0 auto;text-align:center;}
+   .hero-cta{justify-content:center;}
+   .hero-trust{justify-content:center;}
+-- 
+2.43.0
+
