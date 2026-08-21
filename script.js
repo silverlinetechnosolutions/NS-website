@@ -233,6 +233,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const message =
         form.message.value.trim();
 
+      const consent =
+        form.consent.checked;
+
 
       // -----------------------------------------------------
       // VALIDATION
@@ -248,6 +251,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         status.textContent =
           'Please fill in your name, email, and message.';
+
+        status.className =
+          'form-status error';
+
+        return;
+      }
+
+
+      if (!consent) {
+
+        status.textContent =
+          'Please agree to the Privacy Policy to continue.';
 
         status.className =
           'form-status error';
@@ -352,6 +367,11 @@ document.addEventListener('DOMContentLoaded', () => {
       formData.append(
         'message',
         message
+      );
+
+      formData.append(
+        'consent',
+        consent ? 'Yes' : 'No'
       );
 
       formData.append(
