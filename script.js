@@ -7,6 +7,71 @@ document.addEventListener('DOMContentLoaded', () => {
   const SHEET_API_URL =
     'https://script.google.com/macros/s/AKfycbyY-l8FNZCIrLDZzmiRQdQsBSx1CujTdvCAMe84Ss1vAnnGUCk_lDZ41rZ8DGH4Ec-4/exec';
 
+  // =========================================================
+  // INPUT SANITIZATION UTILITIES
+  // =========================================================
+  const sanitize = {
+    text: (str) => {
+      if (typeof str !== 'string') return '';
+      return str
+        .trim()
+        .replace(/[<>]/g, '')
+        .replace(/javascript:/gi, '')
+        .replace(/on\w+\s*=/gi, '')
+        .slice(0, 5000);
+    },
+    email: (str) => {
+      if (typeof str !== 'string') return '';
+      return str.trim().toLowerCase().slice(0, 254);
+    },
+    phone: (str) => {
+      if (typeof str !== 'string') return '';
+      return str.replace(/\D/g, '').slice(0, 15);
+    },
+    service: (str) => {
+      if (typeof str !== 'string') return '';
+      return str.trim().slice(0, 100);
+    },
+    message: (str) => {
+      if (typeof str !== 'string') return '';
+      return str
+        .trim()
+        .replace(/[<>]/g, '')
+        .replace(/javascript:/gi, '')
+        .replace(/on\w+\s*=/gi, '')
+        .slice(0, 10000);
+    }
+  };
+
+  // =========================================================
+  // IP ADDRESS CAPTURE
+  // =========================================================
+  let userIP = 'Unknown';
+
+  async function captureIP() {
+    try {
+      const response = await fetch('https://api.ipify.org?format=json', {
+        method: 'GET',
+        cache: 'no-cache'
+      });
+      if (response.ok) {
+        const data = await response.json();
+        userIP = data.ip || 'Unknown';
+      }
+    } catch (error) {
+      console.warn('Could not capture IP:', error);
+      userIP = 'Unknown';
+    }
+    
+    // Populate hidden field in form
+    const ipField = document.getElementById('ip');
+    if (ipField) {
+      ipField.value = userIP;
+    }
+  }
+
+  captureIP();
+
 
   // =========================================================
   // FOOTER YEAR
@@ -213,25 +278,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
       // -----------------------------------------------------
-      // GET FORM VALUES
+      // GET & SANITIZE FORM VALUES
       // -----------------------------------------------------
       const name =
-        form.name.value.trim();
+        sanitize.text(form.name.value);
 
       const company =
-        form.company.value.trim();
+        sanitize.text(form.company.value);
 
       const email =
-        form.email.value.trim();
+        sanitize.email(form.email.value);
 
       const phone =
-        form.phone.value.trim();
+        sanitize.phone(form.phone.value);
 
       const service =
-        form.service.value.trim();
+        sanitize.service(form.service.value);
 
       const message =
-        form.message.value.trim();
+        sanitize.message(form.message.value);
 
       const consent =
         form.consent.checked;
@@ -383,6 +448,8 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         )
       );
+
+      formData.append('ip', userIP);
 
 
       // -----------------------------------------------------

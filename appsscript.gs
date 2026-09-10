@@ -23,6 +23,51 @@ var SHEET_NAME = 'Sheet1';                          // change if your tab is nam
 var SPREADSHEET_ID = '';
 
 /**
+ * Input sanitization utilities for server-side validation
+ */
+function sanitizeInput(input, type) {
+  if (input === undefined || input === null) return '';
+  var str = String(input);
+  
+  switch (type) {
+    case 'text':
+      return str
+        .trim()
+        .replace(/[<>]/g, '')
+        .replace(/javascript:/gi, '')
+        .replace(/on\w+\s*=/gi, '')
+        .slice(0, 5000);
+    case 'email':
+      return str.trim().toLowerCase().slice(0, 254);
+    case 'phone':
+      return str.replace(/\D/g, '').slice(0, 15);
+    case 'service':
+      return str.trim().slice(0, 100);
+    case 'message':
+      return str
+        .trim()
+        .replace(/[<>]/g, '')
+        .replace(/javascript:/gi, '')
+        .replace(/on\w+\s*=/gi, '')
+        .slice(0, 10000);
+    case 'ip':
+      return str.trim().slice(0, 45);
+    default:
+      return str.trim().slice(0, 5000);
+  }
+}
+
+function validateEmail(email) {
+  var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(email);
+}
+
+function validatePhone(phone) {
+  var pattern = /^[0-9]{10}$/;
+  return pattern.test(phone);
+}
+
+/**
  * Returns the target spreadsheet. Works for both bound scripts
  * (Extensions > Apps Script) and standalone scripts (SPREADSHEET_ID set).
  */
@@ -57,16 +102,59 @@ function doPost(e) {
   try {
     var d = (e && e.parameter) || {};
 
+    // Server-side sanitization
+    var sanitized = {
+      name: sanitizeInput(d.name, 'text'),
+      company: sanitizeInput(d.company, 'text'),
+      email: sanitizeInput(d.email, 'email'),
+      phone: sanitizeInput(d.phone, 'phone'),
+      service: sanitizeInput(d.service, 'service'),
+      message: sanitizeInput(d.message, 'message'),
+      ip: sanitizeInput(d.ip, 'ip'),
+      consent: d.consent || '',
+      timestamp: d.timestamp || new Date().toLocaleString()
+    };
+
+    // Server-side validation
+    if (!sanitized.name || !sanitized.email || !sanitized.message) {
+      response.result = 'error';
+      response.error = 'Name, email, and message are required.';
+      return ContentService.createTextOutput(JSON.stringify(response))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    if (!validateEmail(sanitized.email)) {
+      response.result = 'error';
+      response.error = 'Invalid email address.';
+      return ContentService.createTextOutput(JSON.stringify(response))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    if (sanitized.phone && !validatePhone(sanitized.phone)) {
+      response.result = 'error';
+      response.error = 'Invalid phone number. Must be 10 digits.';
+      return ContentService.createTextOutput(JSON.stringify(response))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    if (sanitized.consent !== 'Yes') {
+      response.result = 'error';
+      response.error = 'Privacy policy consent is required.';
+      return ContentService.createTextOutput(JSON.stringify(response))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
     var sheet = getTargetSheet();
 
     var row = [
-      d.name || '',
-      d.company || '',
-      d.email || '',
-      d.phone || '',
-      d.service || '',
-      d.message || '',
-      d.timestamp || new Date().toLocaleString()
+      sanitized.name,
+      sanitized.company,
+      sanitized.email,
+      sanitized.phone,
+      sanitized.service,
+      sanitized.message,
+      sanitized.ip,
+      sanitized.timestamp
     ];
     sheet.appendRow(row);
 
@@ -75,7 +163,7 @@ function doPost(e) {
 
     // Send the email directly from the web app call so it works
     // without requiring the onChange trigger to be installed.
-    response.email = sendInquiryEmail(d);
+    response.email = sendInquiryEmail(sanitized);
   } catch (err) {
     response.result = 'error';
     response.error = String(err);
@@ -101,6 +189,7 @@ function sendInquiryEmail(d) {
     'Email:     ' + (d.email || '-'),
     'Phone:     ' + (d.phone || '-'),
     'Service:   ' + (d.service || '-'),
+    'IP Address: ' + (d.ip || 'Unknown'),
     'Message:   ' + (d.message || '-'),
     'Submitted: ' + (d.timestamp || '-'),
     '-------------------------------------------',
@@ -128,6 +217,7 @@ function testEmail() {
     phone: '+91 98765 43210',
     service: 'Electronic Security',
     message: 'This is a test email from the Apps Script.',
+    ip: '192.168.1.1',
     timestamp: new Date().toLocaleString()
   });
   Logger.log('testEmail result: ' + status);
@@ -149,7 +239,7 @@ function onChange(e) {
     var cached = CacheService.getScriptCache().get('lastWebAppRow');
     if (cached === String(lastRow)) return;
 
-    var values = sheet.getRange(lastRow, 1, 1, 7).getValues()[0] || [];
+    var values = sheet.getRange(lastRow, 1, 1, 8).getValues()[0] || [];
     var d = {
       name: values[0] || '',
       company: values[1] || '',
@@ -157,7 +247,8 @@ function onChange(e) {
       phone: values[3] || '',
       service: values[4] || '',
       message: values[5] || '',
-      timestamp: values[6] || new Date().toLocaleString()
+      ip: values[6] || 'Unknown',
+      timestamp: values[7] || new Date().toLocaleString()
     };
 
     // Skip blank/partial rows so we don't email empty data.
