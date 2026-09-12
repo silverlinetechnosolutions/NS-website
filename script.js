@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // GOOGLE APPS SCRIPT WEB APP URL
   // =========================================================
   const SHEET_API_URL =
-    'https://script.google.com/macros/s/AKfycbyTjARxMbl0zpOm4uaBm2YZXMLO6XAkm_Kkhx1LO2U_OWvqhrO80nggokMw9wWWcUP4/exec';
+    'https://script.google.com/macros/s/AKfycbzgLR3RUV3yIO8BXA6fMol2A7snpIwr_2zEubAAxfnoY-VkDUF9syTM11ODXbPEccGH/exec';
 
   // =========================================================
   // INPUT SANITIZATION UTILITIES
