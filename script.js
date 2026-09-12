@@ -44,23 +44,41 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // =========================================================
-  // IP ADDRESS CAPTURE
+  // IP ADDRESS & LOCATION CAPTURE
   // =========================================================
   let userIP = 'Unknown';
+  let userLocation = 'Unknown';
+  const pageLoadTime = Date.now();
 
   async function captureIP() {
     try {
-      const response = await fetch('https://api.ipify.org?format=json', {
+      // Primary: ipapi.co (Provides IP + City + State + Country)
+      const response = await fetch('https://ipapi.co/json/', {
         method: 'GET',
         cache: 'no-cache'
       });
       if (response.ok) {
         const data = await response.json();
         userIP = data.ip || 'Unknown';
+        userLocation = [data.city, data.region, data.country_name].filter(Boolean).join(', ') || 'Unknown';
+      } else {
+        throw new Error('ipapi request failed');
       }
     } catch (error) {
-      console.warn('Could not capture IP:', error);
-      userIP = 'Unknown';
+      try {
+        // Fallback: ipify.org
+        const response2 = await fetch('https://api.ipify.org?format=json', {
+          method: 'GET',
+          cache: 'no-cache'
+        });
+        if (response2.ok) {
+          const data2 = await response2.json();
+          userIP = data2.ip || 'Unknown';
+        }
+      } catch (err2) {
+        console.warn('Could not capture IP:', err2);
+        userIP = 'Unknown';
+      }
     }
     
     // Populate hidden field in form
@@ -276,6 +294,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
       e.preventDefault();
 
+      // -----------------------------------------------------
+      // ANTI-SPAM: HONEYPOT & TIME GATE CHECKS
+      // -----------------------------------------------------
+      const hpValue = document.getElementById('website_hp')?.value;
+      if (hpValue) {
+        status.textContent = "Thanks! We've received your message and will get back to you shortly.";
+        status.className = 'form-status success';
+        form.reset();
+        return;
+      }
+
+      const timeTaken = (Date.now() - pageLoadTime) / 1000;
+      if (timeTaken < 3) {
+        status.textContent = "Thanks! We've received your message and will get back to you shortly.";
+        status.className = 'form-status success';
+        form.reset();
+        return;
+      }
 
       // -----------------------------------------------------
       // GET & SANITIZE FORM VALUES
@@ -450,6 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
       );
 
       formData.append('ip', userIP);
+      formData.append('location', userLocation);
 
 
       // -----------------------------------------------------

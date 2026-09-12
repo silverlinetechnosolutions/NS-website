@@ -102,6 +102,27 @@ function doPost(e) {
   try {
     var d = (e && e.parameter) || {};
 
+    // 1. Honeypot check - silent drop for spam bots
+    if (d.website_hp) {
+      Logger.log('Spam blocked via honeypot trap.');
+      return ContentService.createTextOutput(JSON.stringify({ result: 'success', note: 'bot_ignored' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // 2. Keyword Spam Filter
+    var spamKeywords = ['casino', 'poker', 'viagra', 'crypto', 'seo ranking', 'backlinks', 'telegram.me', 'wa.me'];
+    var msgLower = (d.message || '').toLowerCase();
+    var nameLower = (d.name || '').toLowerCase();
+    var isSpam = spamKeywords.some(function(kw) {
+      return msgLower.indexOf(kw) !== -1 || nameLower.indexOf(kw) !== -1;
+    });
+
+    if (isSpam) {
+      Logger.log('Spam blocked via keyword filter. Email: ' + d.email);
+      return ContentService.createTextOutput(JSON.stringify({ result: 'success', note: 'spam_keyword_ignored' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
     // Server-side sanitization
     var sanitized = {
       name: sanitizeInput(d.name, 'text'),
@@ -111,6 +132,7 @@ function doPost(e) {
       service: sanitizeInput(d.service, 'service'),
       message: sanitizeInput(d.message, 'message'),
       ip: sanitizeInput(d.ip, 'ip'),
+      location: sanitizeInput(d.location, 'text'),
       consent: d.consent || '',
       timestamp: d.timestamp || new Date().toLocaleString()
     };
@@ -154,6 +176,7 @@ function doPost(e) {
       sanitized.service,
       sanitized.message,
       sanitized.ip,
+      sanitized.location,
       sanitized.timestamp
     ];
     sheet.appendRow(row);
@@ -184,14 +207,15 @@ function sendInquiryEmail(d) {
   var body = [
     'A new inquiry was received on the North Star Technologies website.',
     '-------------------------------------------',
-    'Name:      ' + (d.name || '-'),
-    'Company:   ' + (d.company || '-'),
-    'Email:     ' + (d.email || '-'),
-    'Phone:     ' + (d.phone || '-'),
-    'Service:   ' + (d.service || '-'),
-    'IP Address: ' + (d.ip || 'Unknown'),
-    'Message:   ' + (d.message || '-'),
-    'Submitted: ' + (d.timestamp || '-'),
+    'Name:        ' + (d.name || '-'),
+    'Company:     ' + (d.company || '-'),
+    'Email:       ' + (d.email || '-'),
+    'Phone:       ' + (d.phone || '-'),
+    'Service:     ' + (d.service || '-'),
+    'IP Address:  ' + (d.ip || 'Unknown'),
+    'Location:    ' + (d.location || 'Unknown'),
+    'Message:     ' + (d.message || '-'),
+    'Submitted:   ' + (d.timestamp || '-'),
     '-------------------------------------------',
     'Please respond to the client at the earliest.'
   ].join('\n');
