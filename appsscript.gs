@@ -124,6 +124,12 @@ function doPost(e) {
     }
 
     // Server-side sanitization
+    var clientIp = sanitizeInput(d.ip, 'ip');
+    var clientLoc = sanitizeInput(d.location, 'text');
+    if (!clientLoc || clientLoc === 'Unknown') {
+      clientLoc = getLocationFromIP(clientIp);
+    }
+
     var sanitized = {
       name: sanitizeInput(d.name, 'text'),
       company: sanitizeInput(d.company, 'text'),
@@ -131,8 +137,8 @@ function doPost(e) {
       phone: sanitizeInput(d.phone, 'phone'),
       service: sanitizeInput(d.service, 'service'),
       message: sanitizeInput(d.message, 'message'),
-      ip: sanitizeInput(d.ip, 'ip'),
-      location: sanitizeInput(d.location, 'text'),
+      ip: clientIp,
+      location: clientLoc,
       consent: d.consent || '',
       timestamp: d.timestamp || new Date().toLocaleString()
     };
@@ -300,4 +306,24 @@ function installTrigger() {
     .onChange()
     .create();
   Logger.log('onChange trigger installed.');
+}
+
+/**
+ * Server-side IP-to-Geo lookup fallback.
+ */
+function getLocationFromIP(ip) {
+  if (!ip || ip === 'Unknown') return 'Unknown';
+  try {
+    var response = UrlFetchApp.fetch('http://ip-api.com/json/' + ip + '?fields=status,country,regionName,city', { muteHttpExceptions: true });
+    if (response.getResponseCode() === 200) {
+      var data = JSON.parse(response.getContentText());
+      if (data.status === 'success') {
+        var loc = [data.city, data.regionName, data.country].filter(Boolean).join(', ');
+        return loc || 'Unknown';
+      }
+    }
+  } catch (err) {
+    Logger.log('getLocationFromIP error: ' + err);
+  }
+  return 'Unknown';
 }
